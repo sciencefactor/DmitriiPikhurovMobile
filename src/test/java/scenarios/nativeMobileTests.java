@@ -41,13 +41,17 @@ public class nativeMobileTests extends BaseTest {
         getPo().getWelement("registrationConfirmPassword").sendKeys(user.getUserPassword());
         getPo().getWelement("registrationRegisterNewAccount").click();
 
+        // Registration complete on main page
+        WebElement pageTitle = getPo().getWelement("mainPageTitle");
+        assertEquals(pageTitle.getText(), TestProperties.get("mainPageTitle"));
+
         // Sing in
         getPo().getWelement("emailField").sendKeys(user.getUserMail());
         getPo().getWelement("passwordFiled").sendKeys(user.getUserPassword());
         getPo().getWelement("signInBtn").click();
 
         // Page should be 'BudgetActivity'
-        WebElement pageTitle = getPo().getWelement("pageTitle");
+        pageTitle = getPo().getWelement("pageTitle");
         assertEquals(pageTitle.getText(), TestProperties.get("registerUserFinalPage"));
     }
 
