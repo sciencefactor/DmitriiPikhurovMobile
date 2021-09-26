@@ -29,9 +29,7 @@ public class PageObject implements IPageObject {
     @Override
     public WebElement getWelement(String weName) throws NoSuchFieldException, IllegalAccessException {
         // use reflection technique
-        System.out.printf("Interact with %s element%n", weName);
-        Field field = somePageObject.getClass().getDeclaredField(weName);
-        field.setAccessible(true);
+        Field field = getField(weName);
         return (WebElement) field.get(somePageObject);
 
     }
@@ -39,9 +37,14 @@ public class PageObject implements IPageObject {
     @Override
     public List<WebElement> getWelements(String weName) throws NoSuchFieldException, IllegalAccessException {
         // use reflection technique
+        Field field = getField(weName);
+        return (List<WebElement>) field.get(somePageObject);
+    }
+
+    private Field getField(String weName) throws NoSuchFieldException {
         System.out.printf("Interact with %s element%n", weName);
         Field field = somePageObject.getClass().getDeclaredField(weName);
         field.setAccessible(true);
-        return (List<WebElement>) field.get(somePageObject);
+        return field;
     }
 }
