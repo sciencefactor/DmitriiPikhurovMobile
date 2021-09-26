@@ -2,18 +2,19 @@ package setup;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pageObjects.PageObject;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+import utils.TestProperties;
 
 public class BaseTest implements IDriver {
 
     private static AppiumDriver appiumDriver; // singleton
-    IPageObject po;
+    static IPageObject po;
 
     @Override
     public AppiumDriver getDriver() { return appiumDriver; }
@@ -28,12 +29,22 @@ public class BaseTest implements IDriver {
         System.out.println("Before: app type - "+appType);
         setAppiumDriver(platformName, deviceName, browserName, app);
         setPageObject(appType, appiumDriver);
+        TestProperties.loadProperties(appType);
+    }
 
+    @AfterMethod(alwaysRun = true)
+    public void report(ITestResult result) {
+        String message = String.format(result.getTestClass().getName()
+            + " - Test: %s ", result.getMethod().getMethodName());
+        if (result.isSuccess()) {
+            System.out.println("[INFO] " + message + "passed");
+        } else {
+            System.out.println("[FAIL] " + message + "failed");
+        }
     }
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() throws Exception {
-        System.out.println("After");
         appiumDriver.closeApp();
     }
 
