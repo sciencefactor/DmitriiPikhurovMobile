@@ -1,27 +1,38 @@
 package scenarios;
 
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.List;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import setup.BaseTest;
+import utils.TestProperties;
 
 public class webMobileTests extends BaseTest {
 
-    @Test(groups = {"web"}, description = "Make sure that we've opened IANA homepage")
-    public void simpleWebTest() throws InterruptedException {
-        getDriver().get("http://iana.org"); // open IANA homepage
+    @Test(groups = {"web"}, description = "Test should make web search request and check result")
+    public void searchRequest()
+        throws InterruptedException, NoSuchFieldException, IllegalAccessException, InstantiationException, IOException {
+        getDriver().get(TestProperties.get("searchEngine"));
 
         // Make sure that page has been loaded completely
         new WebDriverWait(getDriver(), 10).until(
                 wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")
         );
 
-        // Check IANA homepage title
-        assert ((WebDriver) getDriver()).getTitle().equals("Internet Assigned Numbers Authority") : "This is not IANA homepage";
+        // Make search request
+        getPo().getWelement("searchField").click();
+        getPo().getWelement("searchField").sendKeys(TestProperties.get("searchKeyword"));
+        getPo().getWelement("searchField").sendKeys(Keys.ENTER);
 
-        // Log that test finished
-        System.out.println("Site opening done");
+        // Check search result
+        List<WebElement> searchResult = getPo().getWelements("searchResult");
+        assertTrue(searchResult.stream()
+                    .anyMatch(result ->result.getText().contains(TestProperties.get("searchKeyword"))));
     }
 
 }
