@@ -31,9 +31,8 @@ public class webMobileTests extends BaseTest {
 
         // Check search result
         List<WebElement> searchResult = getPo().getWelements("searchResult");
-        searchResult.stream()
-                    .limit(TestProperties.getInt("searchMaxCheckedResults"))
-                    .forEach(result -> assertTrue(result.getText().contains(TestProperties.get("searchKeyword"))));
+        assertTrue(searchResult.stream()
+                    .anyMatch(result ->result.getText().contains(TestProperties.get("searchKeyword"))));
     }
 
 }

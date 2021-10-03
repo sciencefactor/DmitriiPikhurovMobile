@@ -4,9 +4,6 @@
     <parameter name="deviceName" value="emulator-5554"></parameter>
     <parameter name="platformName" value="Android"></parameter>
     <parameter name="app" value="./src/main/resources/EPAMTestApp.apk"></parameter>
-    <parameter name="userName" value="Tomas"></parameter>
-    <parameter name="userMail" value="tomas@gmail.com"></parameter>
-    <parameter name="userPassword" value="12345678"></parameter>
     <test name="Native tests">
         <groups>
             <run>

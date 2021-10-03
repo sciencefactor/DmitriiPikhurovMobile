@@ -17,13 +17,12 @@ public class TestProperties {
         return Integer.parseInt(properties.getProperty(property));
     }
 
-    public static Properties loadProperties(String type) {
+    public static void loadProperties(String type) {
         String path = String.format("src/test/resources/properties/%s.properties", type);
         try (InputStream inputStream = new FileInputStream(path)) {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return properties;
     }
 }
