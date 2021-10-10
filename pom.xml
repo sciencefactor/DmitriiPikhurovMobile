@@ -7,12 +7,16 @@
     <groupId>com.epam.mtat</groupId>
     <artifactId>mobileTaTrainingV2</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <surefire.ts.appium>https://EPM-TSTF:%s@mobilecloud.epam.com/wd/hub</surefire.ts.appium>
+        <suite.file>./src/test/resources/cloudWebAndroidTNG.xml</suite.file>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>7.3.0</version>
+            <version>7.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -23,6 +27,16 @@
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
             <version>4.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
         </dependency>
     </dependencies>
 
@@ -37,7 +51,7 @@
                         <suiteXmlFile>${suite.file}</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
-                        <ts.appium>http://localhost:4723/wd/hub</ts.appium>
+                        <ts.appium>${surefire.ts.appium}</ts.appium>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -59,6 +73,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
+                <surefire.ts.appium>http://localhost:4723/wd/hub</surefire.ts.appium>
                 <suite.file>src/test/resources/nativeTNG.xml</suite.file>
             </properties>
         </profile>
@@ -66,10 +81,52 @@
         <profile>
             <id>web</id>
             <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <surefire.ts.appium>http://localhost:4723/wd/hub</surefire.ts.appium>
+                <suite.file>./src/test/resources/webTNG.xml</suite.file>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>cloudWebIOs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <surefire.ts.appium>https://EPM-TSTF:%s@mobilecloud.epam.com/wd/hub</surefire.ts.appium>
+                <suite.file>./src/test/resources/cloudWebIOsTNG.xml</suite.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>cloudWebAndroid</id>
+            <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <suite.file>./src/test/resources/webTNG.xml</suite.file>
+                <surefire.ts.appium>https://EPM-TSTF:%s@mobilecloud.epam.com/wd/hub</surefire.ts.appium>
+                <suite.file>./src/test/resources/cloudWebAndroidTNG.xml</suite.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>cloudNativeIOs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <surefire.ts.appium>https://EPM-TSTF:%s@mobilecloud.epam.com/wd/hub</surefire.ts.appium>
+                <suite.file>./src/test/resources/cloudNativeIOsTNG.xml</suite.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>cloudNativeAndroid</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <surefire.ts.appium>https://EPM-TSTF:%s@mobilecloud.epam.com/wd/hub</surefire.ts.appium>
+                <suite.file>./src/test/resources/cloudNativeAndroidTNG.xml</suite.file>
             </properties>
         </profile>
     </profiles>
