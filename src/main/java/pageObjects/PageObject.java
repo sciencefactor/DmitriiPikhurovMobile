@@ -46,9 +46,25 @@ public class PageObject implements IPageObject {
 
     @Override
     public WebElement getWelementUntil(String weName, int seconds) {
-        return new WebDriverWait(driver, 5).until(wb -> {
+        return new WebDriverWait(driver, seconds).until(wb -> {
             try {
                 return getWelement(weName);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Wrong filed " + weName);
+            }
+        });
+    }
+
+    @Override
+    public List<WebElement> getWelementsUntil(String weName, int seconds) {
+        return new WebDriverWait(driver, seconds).until(wb -> {
+            try {
+                List<WebElement> welements = getWelements(weName);
+                if(welements.size() > 0){
+                    return welements;
+                }
+                return null;
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Wrong filed " + weName);

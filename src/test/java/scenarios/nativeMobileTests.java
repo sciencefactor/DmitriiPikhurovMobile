@@ -1,16 +1,9 @@
 package scenarios;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import entities.User;
-import java.io.File;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import setup.BaseTest;
@@ -29,9 +22,9 @@ public class nativeMobileTests extends BaseTest {
 
     @Test(groups = {"native"}, description = "Test should create new user account and sing in with it")
     public void registerNewAccount()
-        throws IllegalAccessException, NoSuchFieldException, InstantiationException, InterruptedException {
-        // Register new user
+        throws IllegalAccessException, NoSuchFieldException, InstantiationException {
 
+        // Register new user
         getPo().getWelement("registerButton").click();
         getPo().getWelementUntil("registrationEmail", 5).sendKeys(user.getUserMail());
         getPo().getWelement("registrationUsername").sendKeys(user.getUserName());
@@ -41,9 +34,7 @@ public class nativeMobileTests extends BaseTest {
         getPo().getWelement("registrationRegisterNewAccount").click();
 
         // Registration complete on main page
-
         WebElement pageTitle = getPo().getWelementUntil("mainPageTitle", 5);
-//        WebElement pageTitle = getPo().getWelement("mainPageTitle");
         assertEquals(pageTitle.getText(), TestProperties.get("mainPageTitle"));
 
         // Sing in
@@ -52,7 +43,7 @@ public class nativeMobileTests extends BaseTest {
         getPo().getWelement("signInBtn").click();
 
         // Page should be 'BudgetActivity'
-        pageTitle = getPo().getWelement("pageTitle");
+        pageTitle = getPo().getWelementUntil("pageTitle", 5);
         assertEquals(pageTitle.getText(), TestProperties.get("registerUserFinalPage"));
     }
 

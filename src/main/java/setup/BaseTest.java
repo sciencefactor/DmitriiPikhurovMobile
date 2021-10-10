@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+import utils.EpamMobileCloudApi;
 import utils.TestProperties;
 
 public class BaseTest implements IDriver {
@@ -38,6 +39,10 @@ public class BaseTest implements IDriver {
     ) throws Exception {
         System.out.println("Before: app type - " + appType);
         TestProperties.loadProperties(platformName, appType, "private");
+        if(appType.equalsIgnoreCase("native")) {
+            EpamMobileCloudApi.uploadApplication();
+            EpamMobileCloudApi.installApplication(udid);
+        }
         setAppiumDriver(platformName, deviceName, udid, browserName, app , appPackage, appActivity, bundleId);
         setPageObject(appType, appiumDriver);
     }
@@ -56,6 +61,9 @@ public class BaseTest implements IDriver {
     @AfterSuite(alwaysRun = true)
     public void tearDown() throws Exception {
         appiumDriver.closeApp();
+        if(EpamMobileCloudApi.isApplicationInstalled()) {
+            EpamMobileCloudApi.deleteApplication();
+        }
     }
 
     private void setAppiumDriver(String platformName,
