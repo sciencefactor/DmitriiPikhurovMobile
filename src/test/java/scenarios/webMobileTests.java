@@ -2,6 +2,7 @@ package scenarios;
 
 import static org.testng.Assert.assertTrue;
 
+import io.appium.java_client.AppiumDriver;
 import java.util.List;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -15,8 +16,7 @@ import utils.TestProperties;
 public class webMobileTests extends BaseTest {
 
     @Test(groups = {"web"}, description = "Test should make web search request and check result")
-    public void searchRequest()
-        throws NoSuchFieldException, IllegalAccessException, InstantiationException, InterruptedException {
+    public void searchRequest() {
         getDriver().get(TestProperties.get("searchEngine"));
 
         // Make sure that page has been loaded completely
@@ -28,12 +28,7 @@ public class webMobileTests extends BaseTest {
         WebElement searchField = getPo().getWelementUntil("searchField", 6);
         searchField.click();
         searchField.sendKeys(TestProperties.get("searchKeyword"));
-        try {
-            getDriver().getKeyboard().sendKeys(Keys.RETURN);
-        } catch (UnsupportedCommandException e) {
-            searchField.sendKeys(Keys.ENTER);
-        }
-
+        getDriver().getKeyboard().sendKeys(Keys.RETURN);
         // Check search result
         List<WebElement> searchResult = getPo().getWelementsUntil("searchResult", 6);
         assertTrue(searchResult.stream()

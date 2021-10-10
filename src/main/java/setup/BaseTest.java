@@ -1,5 +1,6 @@
 package setup;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
@@ -88,7 +89,12 @@ public class BaseTest implements IDriver {
         capabilities.setCapability("appPackage", appPackage);
         capabilities.setCapability("appActivity", appActivity);
         capabilities.setCapability("bundleId", bundleId);
+
+        // Make .click() method for iOS and Android working same way interpreting it as a tap
         capabilities.setCapability("nativeWebTap", true);
+
+        // Let appium use keyboard in Chrome as in Safari
+        capabilities.setCapability("appium:chromeOptions", ImmutableMap.of("w3c", false));
 
         try {
             String epamCloudURL = String.format(System.getProperty("ts.appium"), TestProperties.getURL("epamMobileCloudToken"));
