@@ -4,16 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.testng.annotations.Test;
 
 public class TestProperties {
 
-//    @Test
-//    public void test() {
-//        TestProperties.loadProperties("web", "private");
-//        System.out.println(TestProperties.get("searchEngine"));
-//        System.out.println(TestProperties.getURL("testToken"));
-//    }
 
     private static final Properties properties = new Properties();
 
